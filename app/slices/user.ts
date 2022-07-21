@@ -33,10 +33,17 @@ const userSlice = createSlice({
       state.data.image = image;
       state.data.id = id;
     },
+
+    userCleared: (state) => {
+      state.authenticated = false;
+      state.data.username = "";
+      state.data.image = "";
+      state.data.id = "";
+    },
   },
 });
 
-export const { userAuthenticated } = userSlice.actions;
+export const { userAuthenticated, userCleared } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;

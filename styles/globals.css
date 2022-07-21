@@ -15,4 +15,6 @@ a {
 
 body {
   font-family: "Baloo 2", cursive;
+  font-weight: bold;
+  -webkit-tap-highlight-color: transparent;
 }

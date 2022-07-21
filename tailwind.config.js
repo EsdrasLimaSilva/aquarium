@@ -10,6 +10,10 @@ module.exports = {
         blue: "#151623",
         darkBlue: "#05060F",
         white: "#F5F5F5",
+        transparent: "#00000030",
+      },
+      borderRadius: {
+        super: "100px",
       },
     },
   },
