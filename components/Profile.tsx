@@ -1,12 +1,14 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../app/slices/user";
 import { FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { uploadContainerSetToVisible } from "../app/slices/upload";
 
 function Profile() {
   const user = useSelector(selectUser);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   if (!user.authenticated) {
     return (
@@ -35,6 +37,7 @@ function Profile() {
       <button
         type="button"
         className="bg-white text-darkBlue px-4 rounded-full"
+        onClick={() => dispatch(uploadContainerSetToVisible())}
       >
         upload song
       </button>

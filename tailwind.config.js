@@ -9,8 +9,9 @@ module.exports = {
       colors: {
         blue: "#151623",
         darkBlue: "#05060F",
-        white: "#F5F5F5",
-        transparent: "#00000030",
+        white: "#F0F0F0",
+        translucens: "#00000060",
+        transBlue: "#05060F99",
       },
       borderRadius: {
         super: "100px",

@@ -1,16 +1,18 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import client, { userQuery } from "../app/sanityClient";
 import { selectUser, userAuthenticated } from "../app/slices/user";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiFillGithub, AiFillLinkedin } from "react-icons/ai";
 //
-import { SideMenu, SearchBar } from "../components";
+import { SideMenu, SearchBar, Container, UploadSong } from "../components";
+import { selectUpload } from "../app/slices/upload";
 
 const Home: NextPage = () => {
   const user = useSelector(selectUser);
+  const { uploadContainerVisible } = useSelector(selectUpload);
   const dispatch = useDispatch();
 
   useEffect(function getUserData() {
@@ -56,28 +58,32 @@ const Home: NextPage = () => {
       </Head>
       <div className="min-w-screen min-h-screen bg-blue text-white">
         <header className="relative">
-          <div className="pl-16 pt-2 flex flex-row justify-center items-center">
-            <a
-              href="https://github.com/EsdrasLimaSilva"
-              target="_blank"
-              className="text-3xl"
-            >
-              <AiFillGithub />
-            </a>
-            <a href="" target="_blank" className="text-3xl ml-2">
-              <AiFillLinkedin />
-            </a>
+          <div className="pl-16 pt-2 flex flex-row flex-wrap justify-center items-center">
             <SearchBar />
           </div>
           <button
             type="button"
-            className="text-3xl fixed top-2 left-2"
+            className="text-3xl fixed top-2 left-2 lg:hidden"
             onClick={showMenu}
           >
             <GiHamburgerMenu />
           </button>
         </header>
+        {uploadContainerVisible ? <UploadSong /> : <Container />}
         <SideMenu />
+
+        <footer className="flex flex-row p-2">
+          <a
+            href="https://github.com/EsdrasLimaSilva"
+            target="_blank"
+            className="text-3xl"
+          >
+            <AiFillGithub />
+          </a>
+          <a href="" target="_blank" className="text-3xl ml-2">
+            <AiFillLinkedin />
+          </a>
+        </footer>
       </div>
     </>
   );
