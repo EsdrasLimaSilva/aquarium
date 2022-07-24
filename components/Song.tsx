@@ -19,7 +19,7 @@ function Song({ songName, songUrl, coverUrl, author }: State) {
   };
 
   return (
-    <div className="bg-blue w-fit my-4 p-4">
+    <div className="bg-blue w-64 h-72 m-4 p-4 cursor-pointer">
       <Image src={coverUrl} alt="song cover" width={240} height={180} />
       <h2 className="text-lg">{songNameFormated(songName)}</h2>
       <h3 className="text-sm opacity-80">{author.toLocaleLowerCase()}</h3>

@@ -1,25 +1,25 @@
 import { useSelector } from "react-redux";
-import { selectSongs } from "../app/slices/songs";
-import Song from "./Song";
+import { selectOperation } from "../app/slices/operation";
+import HomeSongs from "./HomeSongs";
+import LikedSongs from "./LikedSongs";
+import MySongs from "./MySongs";
+import SearchedSongs from "./SearchedSongs";
 
 function Container() {
-  const songs = useSelector(selectSongs);
-  return (
-    <div className="min-h-screen p-2">
-      <h2>Recents</h2>
-      <div className="flex flex-row flex-wrap justify-center items-center ">
-        {songs.recent.map((song) => (
-          <Song
-            key={song._id}
-            songName={song.name}
-            coverUrl={song.cover}
-            songUrl={song.songUrl}
-            author={song.author}
-          />
-        ))}
-      </div>
-    </div>
-  );
+  const operation = useSelector(selectOperation);
+
+  switch (operation) {
+    case "homeSongs":
+      return <HomeSongs />;
+    case "mySongs":
+      return <MySongs />;
+    case "likedSongs":
+      return <LikedSongs />;
+    case "searchedSongs":
+      return <SearchedSongs />;
+    default:
+      return <HomeSongs />;
+  }
 }
 
 export default Container;
