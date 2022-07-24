@@ -2,47 +2,83 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import client, { userQuery } from "../app/sanityClient";
+import client, {
+  genreSongQuery,
+  recentSongsQuery,
+  userQuery,
+} from "../app/sanityClient";
 import { selectUser, userAuthenticated } from "../app/slices/user";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiFillGithub, AiFillLinkedin } from "react-icons/ai";
 //
 import { SideMenu, SearchBar, Container, UploadSong } from "../components";
 import { selectUpload } from "../app/slices/upload";
+import { songsSet } from "../app/slices/songs";
 
-const Home: NextPage = () => {
+type Song = {
+  author: string;
+  authorId: string;
+  cover: string;
+  coverAssetId: string;
+  genre: string;
+  name: string;
+  songAssetId: string;
+  songUrl: string;
+  tags: string;
+  _id: string;
+};
+
+type Props = {
+  recentSongs: Song[];
+  popSongs: Song[];
+  rockSongs: Song[];
+};
+
+const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
   const user = useSelector(selectUser);
   const { uploadContainerVisible } = useSelector(selectUpload);
   const dispatch = useDispatch();
 
-  useEffect(function getUserData() {
-    if (typeof window !== "undefined" && !user.authenticated) {
-      if (localStorage.getItem("localUserId")) {
-        const userId = JSON.parse(localStorage.getItem("localUserId") || "");
-        const query = userQuery(userId);
+  useEffect(
+    function setSongs() {
+      dispatch(
+        songsSet({ pop: popSongs, rock: rockSongs, recent: recentSongs })
+      );
+    },
+    [rockSongs, popSongs, recentSongs]
+  );
 
-        if (userId !== "") {
-          client
-            .fetch(query)
-            .then(
-              (
-                response: { username: string; image: string; _id: string }[]
-              ) => {
-                const { username, image, _id } = response[0];
+  useEffect(
+    function getUserData() {
+      if (typeof window !== "undefined" && !user.authenticated) {
+        if (localStorage.getItem("localUserId")) {
+          const userId = JSON.parse(localStorage.getItem("localUserId") || "");
+          const query = userQuery(userId);
 
-                dispatch(
-                  userAuthenticated({
-                    username: username,
-                    image: image,
-                    id: _id,
-                  })
-                );
-              }
-            );
+          if (userId !== "") {
+            client
+              .fetch(query)
+              .then(
+                (
+                  response: { username: string; image: string; _id: string }[]
+                ) => {
+                  const { username, image, _id } = response[0];
+
+                  dispatch(
+                    userAuthenticated({
+                      username: username,
+                      image: image,
+                      id: _id,
+                    })
+                  );
+                }
+              );
+          }
         }
       }
-    }
-  }, []);
+    },
+    [user]
+  );
 
   const showMenu = function () {
     document.querySelector("#side-menu")!.classList.remove("-translate-x-full");
@@ -56,7 +92,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Home</title>
       </Head>
-      <div className="min-w-screen min-h-screen bg-blue text-white">
+      <div className="min-w-screen min-h-screen bg-darkBlue text-white overflow-x-hidden">
         <header className="relative">
           <div className="pl-16 pt-2 flex flex-row flex-wrap justify-center items-center">
             <SearchBar />
@@ -87,6 +123,24 @@ const Home: NextPage = () => {
       </div>
     </>
   );
+};
+
+export const getStaticProps = async function () {
+  const query = recentSongsQuery();
+  const popSongsQuery = genreSongQuery("pop");
+  const rockSongsQuery = genreSongQuery("rock");
+
+  const recentSongsResponse = await client.fetch(query);
+  const popSongsResponse = await client.fetch(popSongsQuery);
+  const rockSongsResponse = await client.fetch(rockSongsQuery);
+
+  return {
+    props: {
+      recentSongs: recentSongsResponse,
+      popSongs: popSongsResponse,
+      rockSongs: rockSongsResponse,
+    },
+  };
 };
 
 export default Home;

@@ -17,4 +17,36 @@ export const userQuery = (userId: string) => {
   return query;
 };
 
+export const recentSongsQuery = () => {
+  const query = `*[_type == "song"][0...8]{
+    author,
+    authorId,
+    cover,
+    coverAssetId,
+    genre,
+    name,
+    songAssetId,
+    songUrl,
+    tags,
+    _id
+  }`;
+  return query;
+};
+
+export const genreSongQuery = (genre: string) => {
+  const query = `*[_type == "song" && genre == "${genre}"][0...8]{
+    author,
+    authorId,
+    cover,
+    coverAssetId,
+    genre,
+    name,
+    songAssetId,
+    songUrl,
+    tags,
+    _id
+  }`;
+  return query;
+};
+
 export default client;

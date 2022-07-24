@@ -51,6 +51,7 @@ const uploadSlice = createSlice({
     ) => {
       state.actions.imageAsset.id = action.payload.id;
       state.actions.imageAsset.url = action.payload.url;
+      state.actions.imageProcessed = true;
     },
     imageAssetRemoved: (state) => {
       state.actions.imageAsset.id = "";
@@ -75,6 +76,7 @@ const uploadSlice = createSlice({
       state.actions.songAsset.id = action.payload.id;
       state.actions.songAsset.url = action.payload.url;
       state.actions.songAsset.name = action.payload.name;
+      state.actions.songProcessed = true;
     },
     songAssetRemoved: (state) => {
       state.actions.songAsset.id = "";

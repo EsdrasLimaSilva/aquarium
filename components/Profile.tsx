@@ -10,6 +10,12 @@ function Profile() {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const closeMenu = () => {
+    dispatch(uploadContainerSetToVisible());
+    document.querySelector("#side-menu")!.classList.add("-translate-x-full");
+    document.querySelector("#overlay-close-side-menu")!.classList.add("hidden");
+  };
+
   if (!user.authenticated) {
     return (
       <button
@@ -37,7 +43,7 @@ function Profile() {
       <button
         type="button"
         className="bg-white text-darkBlue px-4 rounded-full"
-        onClick={() => dispatch(uploadContainerSetToVisible())}
+        onClick={closeMenu}
       >
         upload song
       </button>

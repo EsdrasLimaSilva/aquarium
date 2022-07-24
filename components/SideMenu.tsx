@@ -56,7 +56,7 @@ function SideMenu() {
       </div>
       <div
         id="overlay-close-side-menu"
-        className="300 fixed top-0 left-0 w-screen h-screen z-0"
+        className="300 fixed top-0 left-0 w-screen h-screen z-0 hidden"
         onClick={closeMenu}
       />
     </>
