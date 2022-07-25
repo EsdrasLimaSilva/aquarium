@@ -14,6 +14,7 @@ import { AiFillGithub, AiFillLinkedin } from "react-icons/ai";
 import { SideMenu, SearchBar, Container, UploadSong } from "../components";
 import { selectUpload } from "../app/slices/upload";
 import { songsSet } from "../app/slices/songs";
+import Player from "../components/Player";
 
 type Song = {
   author: string;
@@ -107,6 +108,7 @@ const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
         </header>
         {uploadContainerVisible ? <UploadSong /> : <Container />}
         <SideMenu />
+        <Player />
 
         <footer className="flex flex-row p-2">
           <a

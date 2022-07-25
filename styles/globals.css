@@ -42,3 +42,17 @@ input {
   padding: 2px 5px;
   margin: 5px 0;
 }
+
+input[type="range"] {
+  -webkit-appearance: none;
+  background-color: #f2f2f2;
+  height: 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #f2f2f2;
+}
