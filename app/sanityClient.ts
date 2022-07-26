@@ -49,4 +49,21 @@ export const genreSongQuery = (genre: string) => {
   return query;
 };
 
+export const searchQuery = (term: string) => {
+  const query = `*[type == 'song' && genre match "${term}" || author match "${term}" || name match "${term}" || "${term}" in tags ]{
+    author,
+    authorId,
+    cover,
+    coverAssetId,
+    genre,
+    name,
+    songAssetId,
+    songUrl,
+    tags,
+    _id
+  }`;
+
+  return query;
+};
+
 export default client;

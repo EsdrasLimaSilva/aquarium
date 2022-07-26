@@ -1,18 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Song } from "../song";
 import { RootState } from "../store";
-
-type Song = {
-  author: string;
-  authorId: string;
-  cover: string;
-  coverAssetId: string;
-  genre: string;
-  name: string;
-  songAssetId: string;
-  songUrl: string;
-  tags: string;
-  _id: string;
-};
 
 type State = {
   recent: Song[];

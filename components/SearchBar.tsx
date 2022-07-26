@@ -1,15 +1,31 @@
 import { FormEvent } from "react";
 import { BiSearch } from "react-icons/bi";
 import { useDispatch } from "react-redux";
+import client, { searchQuery } from "../app/sanityClient";
 import { changedToSearchedSongs } from "../app/slices/operation";
+import {
+  searchedSongsSet,
+  searchFinished,
+  searchStarted,
+} from "../app/slices/search";
+import { Song } from "../app/song";
 
 function SearchBar() {
   const dispatch = useDispatch();
 
   const handleSearch = (e: FormEvent) => {
+    const formInputs = e.target as HTMLFormElement;
     e.preventDefault();
     dispatch(changedToSearchedSongs());
-    console.log(e.target[0]);
+    dispatch(searchStarted());
+
+    const query = searchQuery((formInputs[0] as HTMLInputElement).value.trim());
+    client
+      .fetch(query)
+      .then((res: Song[]) => {
+        dispatch(searchedSongsSet(res));
+      })
+      .finally(() => dispatch(searchFinished()));
   };
 
   return (

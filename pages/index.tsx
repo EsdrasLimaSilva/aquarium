@@ -7,8 +7,13 @@ import client, {
   recentSongsQuery,
   userQuery,
 } from "../app/sanityClient";
-import { selectUser, userAuthenticated } from "../app/slices/user";
-import { GiHamburgerMenu } from "react-icons/gi";
+import {
+  fetchingUserDataAttemptFinished,
+  fetchingUserDataAttemptStarted,
+  selectUser,
+  userAuthenticated,
+} from "../app/slices/user";
+import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { AiFillGithub, AiFillLinkedin } from "react-icons/ai";
 //
 import { SideMenu, SearchBar, Container, UploadSong } from "../components";
@@ -57,6 +62,7 @@ const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
           const query = userQuery(userId);
 
           if (userId !== "") {
+            dispatch(fetchingUserDataAttemptStarted());
             client
               .fetch(query)
               .then(
@@ -73,7 +79,8 @@ const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
                     })
                   );
                 }
-              );
+              )
+              .finally(() => dispatch(fetchingUserDataAttemptFinished()));
           }
         }
       }
@@ -103,7 +110,7 @@ const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
             className="text-3xl fixed top-2 left-2 lg:hidden"
             onClick={showMenu}
           >
-            <GiHamburgerMenu />
+            <HiOutlineMenuAlt1 />
           </button>
         </header>
         {uploadContainerVisible ? <UploadSong /> : <Container />}

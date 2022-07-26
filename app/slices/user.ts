@@ -3,6 +3,7 @@ import { RootState } from "../store";
 
 type State = {
   authenticated: boolean;
+  authenticating: boolean;
   data: {
     username: string;
     image: string;
@@ -12,6 +13,7 @@ type State = {
 
 const initialState: State = {
   authenticated: false,
+  authenticating: false,
   data: {
     username: "",
     image: "",
@@ -40,10 +42,23 @@ const userSlice = createSlice({
       state.data.image = "";
       state.data.id = "";
     },
+
+    fetchingUserDataAttemptStarted: (state) => {
+      state.authenticating = true;
+    },
+
+    fetchingUserDataAttemptFinished: (state) => {
+      state.authenticating = false;
+    },
   },
 });
 
-export const { userAuthenticated, userCleared } = userSlice.actions;
+export const {
+  userAuthenticated,
+  userCleared,
+  fetchingUserDataAttemptFinished,
+  fetchingUserDataAttemptStarted,
+} = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;

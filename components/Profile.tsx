@@ -4,6 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { uploadContainerSetToVisible } from "../app/slices/upload";
+import { ImSpinner9 } from "react-icons/im";
 
 function Profile() {
   const user = useSelector(selectUser);
@@ -16,6 +17,14 @@ function Profile() {
     document.querySelector("#overlay-close-side-menu")!.classList.add("hidden");
   };
 
+  if (user.authenticating) {
+    return (
+      <span className="flex justify-center items-center py-8 text-2xl">
+        <ImSpinner9 className="animate-spin" />
+      </span>
+    );
+  }
+
   if (!user.authenticated) {
     return (
       <button
@@ -24,6 +33,7 @@ function Profile() {
         onClick={() => router.push("/login")}
       >
         <FaUserCircle />
+        <p className="text-sm mt-2">Sign in</p>
       </button>
     );
   }
