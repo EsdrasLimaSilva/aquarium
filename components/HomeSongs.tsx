@@ -1,15 +1,41 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectSongs } from "../app/slices/songs";
 import Song from "./Song";
 
+type Props = {
+  children: React.ReactNode;
+};
+
+const SongListContainer = function ({ children }: Props) {
+  return (
+    <div className="flex flex-row flex-wrap justify-center lg:justify-center items-cente">
+      {children}
+    </div>
+  );
+};
+
 function HomeSongs() {
   const songs = useSelector(selectSongs);
 
+  useEffect(function showSongsWhenLoad() {
+    const homeSongsContainer = document.querySelector(
+      "#home-songs-container"
+    ) as HTMLDivElement;
+    setTimeout(() => {
+      homeSongsContainer.classList.remove("translate-x-6");
+      homeSongsContainer.classList.remove("opacity-0");
+    }, 100);
+  }, []);
+
   return (
-    <div className="min-h-screen p-2">
-      <h2>Recents</h2>
-      <div className="flex flex-row flex-wrap justify-center items-center ">
-        {songs.recent.map((song) => (
+    <div
+      id="home-songs-container"
+      className="min-h-screen p-2 lg:ml-48 transition-all duration-500 ease-out translate-x-6 opacity-0"
+    >
+      <h2 className="border-b-2 border-white mx-5 lg:mx-28 mt-24">Recents</h2>
+      <SongListContainer>
+        {songs.recent.map((song, i) => (
           <Song
             key={song._id}
             songName={song.name}
@@ -18,7 +44,32 @@ function HomeSongs() {
             author={song.author}
           />
         ))}
-      </div>
+      </SongListContainer>
+      <h2 className="border-b-2 border-white mx-5 lg:mx-28 mt-24">Pop</h2>
+      <SongListContainer>
+        {songs.pop.map((song, i) => (
+          <Song
+            key={song._id}
+            songName={song.name}
+            coverUrl={song.cover}
+            songUrl={song.songUrl}
+            author={song.author}
+          />
+        ))}
+      </SongListContainer>
+
+      <h2 className="border-b-2 border-white mx-5 lg:mx-28 mt-24">Rock</h2>
+      <SongListContainer>
+        {songs.rock.map((song, i) => (
+          <Song
+            key={song._id}
+            songName={song.name}
+            coverUrl={song.cover}
+            songUrl={song.songUrl}
+            author={song.author}
+          />
+        ))}
+      </SongListContainer>
     </div>
   );
 }

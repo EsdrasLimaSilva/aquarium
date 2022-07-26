@@ -160,11 +160,11 @@ function UploadSong() {
     >
       <div
         id="success-upload-message"
-        className={`fixed bottom-2 right-0 transition-all duration-300 bg-green-800 w-fit rounded-l-xl  ease-out ${
-          success ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-2 right-0 transition-all duration-300 bg-green-500 w-fit rounded-l-xl opacity-0 ease-out ${
+          success ? "translate-x-0 opacity-100" : "translate-x-full"
         }`}
       >
-        <p className="text-white text-sm flex flex-row items-center p-3 border-2 border-green-800 rounded-l-xl">
+        <p className="text-white text-sm flex flex-row items-center p-3 border-2 border-green-500 rounded-l-xl">
           <MdDone className="mr-2 text-xl" />
           Song Uploaded
         </p>
@@ -201,7 +201,7 @@ function UploadSong() {
             </button>
           </div>
         ) : (
-          <label className="w-60 h-44 bg-blue rounded-lg flex flex-col justify-center items-center">
+          <label className="w-60 h-44 bg-blue rounded-lg flex flex-col justify-center items-center cursor-pointer">
             <p className="text-xs">chosse a image less than 20mb</p>
             <BsFillCloudArrowUpFill className="text-3xl mt-2" />
             <input
@@ -228,7 +228,7 @@ function UploadSong() {
             </p>
           </div>
         ) : (
-          <label className="w-60 bg-orange-600 text-white px-2 rounded-lg my-5">
+          <label className="w-60 bg-orange-600 text-white px-2 rounded-lg my-5 cursor-pointer">
             <p className="flex flex-row items-center justify-center py-2">
               choose a song <RiFolderUploadFill className="ml-2" />
             </p>

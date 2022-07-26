@@ -75,7 +75,7 @@ function Player() {
 
   return (
     <div
-      className={`fixed bottom-0 h-44 w-screen sm:max-w-xs rounded-lg bg-translucens backdrop-blur-xl text-white px-4 py-3 transition-all duration-300 ease-out ${
+      className={`fixed bottom-0 right-0 h-44 w-screen sm:max-w-xs rounded-lg bg-translucens backdrop-blur-xl text-white p-3 transition-all duration-500 ease-in ${
         currentSong.visible ? "" : "translate-y-full"
       }`}
     >
@@ -92,9 +92,9 @@ function Player() {
 
       <button
         type="button"
-        className="absolute top-0 right-3 text-2xl"
+        className="absolute top-0 right-2 text-2xl z-10"
         onClick={() => {
-          toggleSong();
+          if (currentSong.playing) toggleSong();
           dispatch(playerSetToHidden());
         }}
       >
@@ -102,9 +102,9 @@ function Player() {
       </button>
 
       <div>
-        <div className="flex flex-row justify-around items-start">
-          <span>
-            <h2 className="mr-5 text-xl">{currentSong.name}</h2>
+        <div className="flex flex-row justify-center items-start">
+          <span className="mr-5">
+            <h2 className="text-xl">{currentSong.name}</h2>
             <h3 className="opacity-70">{currentSong.author}</h3>
             {currentTime ? (
               <h4>
@@ -116,20 +116,22 @@ function Player() {
             )}
           </span>
           {currentSong.visible && (
-            <Image
-              src={currentSong.cover}
-              alt="song cover"
-              width={100}
-              height={70}
-              className="rounded-lg"
-            />
+            <span className="mr-2">
+              <Image
+                src={currentSong.cover}
+                alt="song cover"
+                width={100}
+                height={70}
+                className="rounded-lg"
+              />
+            </span>
           )}
         </div>
 
         <div className="flex flex-col justify-start items-center">
           <div className="w-full flex flex-row items-center">
             {loading ? (
-              <ImSpinner9 className="text-xl animate-spin mr-2" />
+              <ImSpinner9 className="text-3xl animate-spin mr-2" />
             ) : (
               <button type="button" className="text-3xl" onClick={toggleSong}>
                 {currentSong.playing ? <BsFillPauseFill /> : <BsFillPlayFill />}

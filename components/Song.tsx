@@ -36,7 +36,7 @@ function Song({ songName, songUrl, coverUrl, author }: State) {
 
   return (
     <div
-      className="bg-blue w-64 h-72 m-4 p-4 cursor-pointer"
+      className="bg-blue flex flex-col justify-around w-screen xs:w-52 xs:h-56 h-72 m-4 p-4 cursor-pointer transition-all duration-100 lg:hover:-translate-y-2"
       onClick={changeCurrentSong}
     >
       <Image src={coverUrl} alt="song cover" width={240} height={180} />

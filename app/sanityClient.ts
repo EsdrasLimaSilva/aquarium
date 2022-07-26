@@ -18,7 +18,7 @@ export const userQuery = (userId: string) => {
 };
 
 export const recentSongsQuery = () => {
-  const query = `*[_type == "song"][0...8]{
+  const query = `*[_type == "song"] | order(_createdAt desc)[0...8]{
     author,
     authorId,
     cover,

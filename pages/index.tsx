@@ -95,7 +95,7 @@ const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
       </Head>
       <div className="min-w-screen min-h-screen bg-darkBlue text-white overflow-x-hidden">
         <header className="relative">
-          <div className="pl-16 pt-2 flex flex-row flex-wrap justify-center items-center">
+          <div className="flex justify-center items-center mt-5">
             <SearchBar />
           </div>
           <button

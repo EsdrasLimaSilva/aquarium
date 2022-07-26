@@ -16,6 +16,9 @@ module.exports = {
       borderRadius: {
         super: "100px",
       },
+      screens: {
+        xs: "480px",
+      },
     },
   },
   plugins: [],
