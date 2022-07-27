@@ -50,7 +50,7 @@ export const genreSongQuery = (genre: string) => {
 };
 
 export const searchQuery = (term: string) => {
-  const query = `*[type == 'song' && genre match "${term}" || author match "${term}" || name match "${term}" || "${term}" in tags ]{
+  const query = `*[_type == 'song' && genre match "${term}" || author match "${term}" || name match "${term}" || "${term}" in tags ]{
     author,
     authorId,
     cover,
@@ -62,6 +62,12 @@ export const searchQuery = (term: string) => {
     tags,
     _id
   }`;
+
+  return query;
+};
+
+export const mySongsQuery = (userId: string) => {
+  const query = `*[ _type == "song" && authorId == "${userId}"]`;
 
   return query;
 };

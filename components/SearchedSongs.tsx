@@ -23,12 +23,12 @@ function SearchedSongs() {
         <div className="w-full flex flex-col">
           <button
             type="button"
-            className="flex flex-row justify-center items-center my-5 bg-white text-blue w-fit px-3 rounded-lg ml-72"
+            className="flex flex-row justify-center items-center my-5 bg-white text-blue w-fit px-3 rounded-lg ml-5 lg:ml-72"
             onClick={() => dispatch(changedToHomeSongs())}
           >
             <IoIosArrowBack /> back
           </button>
-          <div className="w-full flex flex-row flex-wrap justify-end pl-52 pr-10">
+          <div className="w-full flex flex-row flex-wrap justify-center lg:justify-end lg:pl-52 lg:pr-10">
             {search.songs.map((song) => (
               <Song
                 author={song.author}

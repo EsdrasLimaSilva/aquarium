@@ -28,6 +28,7 @@ import {
   songWasProcessed,
   uploadContainerSetToHidden,
 } from "../app/slices/upload";
+import { songPushed } from "../app/slices/mySongs";
 
 function UploadSong() {
   const {
@@ -86,12 +87,26 @@ function UploadSong() {
       client
         .createIfNotExists(doc)
         .then(() => {
+          dispatch(songWasNotProcessed());
+          dispatch(imageWasNotProcessed());
+          dispatch(
+            songPushed({
+              _id: doc._id,
+              name: songNameInput.value,
+              cover: imageAsset.url,
+              coverAssetId: imageAsset.id,
+              author: user.data.username,
+              authorId: user.data.id,
+              genre: genreInput.value,
+              songUrl: songAsset.url,
+              songAssetId: songAsset.id,
+              tags: tagsInput.value.split(","),
+            })
+          );
           (songNameInput.value = ""),
             (genreInput.value = ""),
             (tagsInput.value = ""),
-            dispatch(songWasNotProcessed());
-          dispatch(imageWasNotProcessed());
-          setSuccess(true);
+            setSuccess(true);
           setTimeout(() => setSuccess(false), 2000);
         })
         .finally(() => dispatch(songUploadFinished()));

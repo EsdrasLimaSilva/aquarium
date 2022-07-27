@@ -7,6 +7,6 @@ export type Song = {
   name: string;
   songAssetId: string;
   songUrl: string;
-  tags: string;
+  tags: string[];
   _id: string;
 };
