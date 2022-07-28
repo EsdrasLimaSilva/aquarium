@@ -2,14 +2,8 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
-import client, { mySongsQuery } from "../app/sanityClient";
-import {
-  fetchingMySongsFinished,
-  fetchingMySongsStarted,
-  mySongsSet,
-  selectMySongs,
-  songDeleted,
-} from "../app/slices/mySongs";
+import client from "../app/sanityClient";
+import { selectMySongs, songDeleted } from "../app/slices/mySongs";
 import { selectUser } from "../app/slices/user";
 import { Song as SongType } from "../app/song";
 import Song from "./Song";
@@ -41,13 +35,7 @@ const MySingleSong = ({ song }: Props) => {
 
   return (
     <div className="flex flex-col items-center my-4">
-      <Song
-        key={song._id}
-        songName={song.name}
-        author={song.author}
-        coverUrl={song.cover}
-        songUrl={song.songUrl}
-      />
+      <Song key={song._id} song={song} />
       <button
         type="button"
         className="bg-red-600 px-3 py-2 rounded-lg w-44 flex justify-center"
@@ -70,21 +58,20 @@ function MySongs() {
   const user = useSelector(selectUser);
   const mySongs = useSelector(selectMySongs);
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  useEffect(function getMySongs() {
-    if (mySongs.songs.length === 0 && user.authenticated) {
-      dispatch(fetchingMySongsStarted());
-      const query = mySongsQuery(user.data.id);
-
-      client
-        .fetch(query)
-        .then((res: SongType[]) => {
-          dispatch(mySongsSet(res));
-        })
-        .finally(() => dispatch(fetchingMySongsFinished()));
-    }
-  }, []);
+  useEffect(
+    function showMySongs() {
+      setTimeout(() => {
+        document
+          .querySelector("#my-songs-container")
+          ?.classList.remove("translate-x-10");
+        document
+          .querySelector("#my-songs-container")
+          ?.classList.remove("opacity-0");
+      }, 100);
+    },
+    [mySongs.fetching]
+  );
 
   if (mySongs.fetching) {
     return (
@@ -114,10 +101,10 @@ function MySongs() {
   return (
     <div
       id="my-songs-container"
-      className="flex flex-row flex-wrap justify-center lg:justify-end lg:pl-40 lg:pr-10 transition-all duration-300 ease-out"
+      className="flex flex-row flex-wrap justify-center  lg:pl-40 lg:pr-10 transition-all duration-300 ease-out translate-x-10 opacity-0"
     >
       {mySongs.songs.map((song) => (
-        <MySingleSong song={song} />
+        <MySingleSong key={song._id} song={song} />
       ))}
     </div>
   );

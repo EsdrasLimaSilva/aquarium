@@ -12,7 +12,8 @@ export const userQuery = (userId: string) => {
   const query = `*[ _type == "user" && _id == "${userId}"]{
     _id,
     username,
-    image
+    image,
+    libraryId
   }`;
   return query;
 };
@@ -67,7 +68,25 @@ export const searchQuery = (term: string) => {
 };
 
 export const mySongsQuery = (userId: string) => {
-  const query = `*[ _type == "song" && authorId == "${userId}"]`;
+  const query = `*[ _type == "song" && authorId == "${userId}"] | order(_createdAt desc)`;
+
+  return query;
+};
+
+export const libraryQuery = (libraryId: string) => {
+  const query = `*[ _type == "library" && _id == "${libraryId}"]{ songs[] -> {
+    author,
+    authorId,
+    cover,
+    coverAssetId,
+    genre,
+    name,
+    songAssetId,
+    songUrl,
+    tags,
+    _id,
+    
+  }}`;
 
   return query;
 };

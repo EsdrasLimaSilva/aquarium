@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { selectOperation } from "../app/slices/operation";
 import HomeSongs from "./HomeSongs";
-import LikedSongs from "./LikedSongs";
+import Library from "./Library";
 import MySongs from "./MySongs";
 import SearchedSongs from "./SearchedSongs";
 
@@ -13,8 +13,8 @@ function Container() {
       return <HomeSongs />;
     case "mySongs":
       return <MySongs />;
-    case "likedSongs":
-      return <LikedSongs />;
+    case "library":
+      return <Library />;
     case "searchedSongs":
       return <SearchedSongs />;
     default:

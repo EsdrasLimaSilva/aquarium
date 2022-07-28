@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser, userCleared } from "../app/slices/user";
 import {
   changedToHomeSongs,
-  changedToLikedSongs,
+  changedToLibrary,
   changedToMySongs,
   selectOperation,
 } from "../app/slices/operation";
@@ -33,7 +33,7 @@ function SideMenu() {
   return (
     <>
       <div
-        className="fixed top-0 left-0 bg-translucens backdrop-blur-xl w-64 h-fit pb-6 text-white px-4 transition-all duration-300 rounded-br-super z-10 -translate-x-full lg:translate-x-0"
+        className="fixed top-0 left-0 bg-translucens backdrop-blur-xl w-64 h-fit pb-6 text-white px-4 transition-all duration-500 rounded-br-super z-10 -translate-x-full lg:translate-x-0"
         id="side-menu"
       >
         {user.authenticated && (
@@ -46,6 +46,7 @@ function SideMenu() {
           </button>
         )}
         <Profile />
+
         <ul className="mt-5">
           <li
             className={`py-3 flex flex-row cursor-pointer transition-all duration-300 ${
@@ -53,28 +54,39 @@ function SideMenu() {
                 ? "opacity-100"
                 : "opacity-50"
             }`}
-            onClick={() => dispatch(changedToHomeSongs())}
+            onClick={() => {
+              dispatch(changedToHomeSongs());
+              closeMenu();
+            }}
           >
             <AiFillHome className="mr-2" />
             Home
           </li>
+
           <li
             className={`py-3 flex flex-row cursor-pointer transition-all duration-300 ${
               operation === "mySongs" ? "opacity-100" : "opacity-50"
             }`}
-            onClick={() => dispatch(changedToMySongs())}
+            onClick={() => {
+              dispatch(changedToMySongs());
+              closeMenu();
+            }}
           >
             <BsMusicNoteList className="mr-2" />
             My songs
           </li>
+
           <li
             className={`py-3 flex flex-row cursor-pointer transition-all duration-300 ${
-              operation === "likedSongs" ? "opacity-100" : "opacity-50"
+              operation === "library" ? "opacity-100" : "opacity-50"
             }`}
-            onClick={() => dispatch(changedToLikedSongs())}
+            onClick={() => {
+              dispatch(changedToLibrary());
+              closeMenu();
+            }}
           >
             <AiFillHeart className="mr-2" />
-            Liked songs
+            Library
           </li>
         </ul>
       </div>

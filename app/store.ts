@@ -6,6 +6,7 @@ import songsReduer from "./slices/songs";
 import operationReducer from "./slices/operation";
 import searchReducer from "./slices/search";
 import mySongsReducer from "./slices/mySongs";
+import libraryReducer from "./slices/library";
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     operation: operationReducer,
     search: searchReducer,
     mySongs: mySongsReducer,
+    library: libraryReducer,
   },
 });
 

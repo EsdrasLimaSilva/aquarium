@@ -1,5 +1,6 @@
 import { signInWithPopup } from "firebase/auth";
 import { NextPage } from "next";
+import { v4 as uuidv4 } from "uuid";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -25,6 +26,7 @@ const Login: NextPage = () => {
         _id: uid,
         username: displayName,
         image: photoURL,
+        libraryId: uuidv4(),
       };
 
       localStorage.setItem("localUserId", JSON.stringify(uid));

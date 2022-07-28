@@ -30,7 +30,7 @@ function SearchBar() {
 
   return (
     <form
-      className="flex flex-row items-center bg-white text-darkBlue px-2 mt-2 rounded-full mx-auto w-64"
+      className="flex flex-row justify-between items-center bg-white text-darkBlue px-2 mt-2 rounded-full mx-auto lg:ml-auto lg:mr-12 lg:w-72 w-64"
       onSubmit={(e) => handleSearch(e)}
     >
       <input
@@ -41,7 +41,7 @@ function SearchBar() {
         placeholder="search for a song, artist or genre"
         required
       />
-      <button type="submit">
+      <button type="submit" className="text-xl mr-2">
         <BiSearch />
       </button>
     </form>

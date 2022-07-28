@@ -8,6 +8,7 @@ type State = {
     username: string;
     image: string;
     id: string;
+    libraryId: string;
   };
 };
 
@@ -18,6 +19,7 @@ const initialState: State = {
     username: "",
     image: "",
     id: "",
+    libraryId: "",
   },
 };
 
@@ -27,13 +29,19 @@ const userSlice = createSlice({
   reducers: {
     userAuthenticated: (
       state,
-      action: PayloadAction<{ username: string; image: string; id: string }>
+      action: PayloadAction<{
+        username: string;
+        image: string;
+        id: string;
+        libraryId: string;
+      }>
     ) => {
-      const { username, image, id } = action.payload;
+      const { username, image, id, libraryId } = action.payload;
       state.authenticated = true;
       state.data.username = username;
       state.data.image = image;
       state.data.id = id;
+      state.data.libraryId = libraryId;
     },
 
     userCleared: (state) => {
@@ -41,6 +49,7 @@ const userSlice = createSlice({
       state.data.username = "";
       state.data.image = "";
       state.data.id = "";
+      state.data.libraryId = "";
     },
 
     fetchingUserDataAttemptStarted: (state) => {

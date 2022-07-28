@@ -1,39 +1,48 @@
 import Image from "next/image";
-import { memo } from "react";
+import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 import { currentSongSet, playerSetToVisible } from "../app/slices/songs";
+import { Song } from "../app/song";
 import { formatString } from "../helper/formatString";
+import LikeButton from "./LikeButton";
 
 type State = {
-  songName: string;
-  songUrl: string;
-  coverUrl: string;
-  author: string;
+  song: Song;
+  likeButton?: boolean;
 };
 
-function Song({ songName, songUrl, coverUrl, author }: State) {
+function Song({ song, likeButton }: State) {
   const dispatch = useDispatch();
 
-  const changeCurrentSong = () => {
-    dispatch(
-      currentSongSet({
-        author: author,
-        songUrl: songUrl,
-        cover: coverUrl,
-        name: songName,
-      })
-    );
-    dispatch(playerSetToVisible());
+  const changeCurrentSong = (e: React.MouseEvent) => {
+    if (!(e.target as HTMLElement).closest("button")) {
+      dispatch(
+        currentSongSet({
+          author: song.author,
+          songUrl: song.songUrl,
+          cover: song.cover,
+          name: song.name,
+        })
+      );
+      dispatch(playerSetToVisible());
+    }
   };
 
   return (
     <div
       className="bg-blue flex flex-col justify-around w-64 xs:w-52 xs:h-56 h-72 m-4 p-4 cursor-pointer transition-all duration-100 lg:hover:-translate-y-2"
-      onClick={changeCurrentSong}
+      onClick={(e) => changeCurrentSong(e)}
     >
-      <Image src={coverUrl} alt="song cover" width={240} height={180} />
-      <h2 className="text-lg">{formatString(songName)}</h2>
-      <h3 className="text-sm opacity-80">{author.toLocaleLowerCase()}</h3>
+      <Image src={song.cover} alt="song cover" width={240} height={180} />
+      <span className="flex flex-row justify-between">
+        <span className="flex flex-col">
+          <h2 className="text-lg">{formatString(song.name)}</h2>
+          <h3 className="text-sm opacity-80">
+            {song.author.toLocaleLowerCase()}
+          </h3>
+        </span>
+        {likeButton && <LikeButton song={song} />}
+      </span>
     </div>
   );
 }

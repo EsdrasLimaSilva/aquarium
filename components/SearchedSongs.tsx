@@ -28,15 +28,9 @@ function SearchedSongs() {
           >
             <IoIosArrowBack /> back
           </button>
-          <div className="w-full flex flex-row flex-wrap justify-center lg:justify-end lg:pl-52 lg:pr-10">
+          <div className="w-full flex flex-row flex-wrap justify-center lg:pl-64 lg:pr-10">
             {search.songs.map((song) => (
-              <Song
-                author={song.author}
-                coverUrl={song.cover}
-                songName={song.name}
-                songUrl={song.songUrl}
-                key={song._id}
-              />
+              <Song song={song} key={song._id} likeButton={true} />
             ))}
           </div>
         </div>

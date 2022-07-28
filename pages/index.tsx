@@ -1,9 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import client, {
   genreSongQuery,
+  libraryQuery,
+  mySongsQuery,
   recentSongsQuery,
   userQuery,
 } from "../app/sanityClient";
@@ -13,6 +15,7 @@ import {
   selectUser,
   userAuthenticated,
 } from "../app/slices/user";
+import { v4 as uuidv4 } from "uuid";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { AiFillGithub, AiFillLinkedin } from "react-icons/ai";
 //
@@ -20,19 +23,14 @@ import { SideMenu, SearchBar, Container, UploadSong } from "../components";
 import { selectUpload } from "../app/slices/upload";
 import { songsSet } from "../app/slices/songs";
 import Player from "../components/Player";
-
-type Song = {
-  author: string;
-  authorId: string;
-  cover: string;
-  coverAssetId: string;
-  genre: string;
-  name: string;
-  songAssetId: string;
-  songUrl: string;
-  tags: string;
-  _id: string;
-};
+import {
+  fetchingMySongsFinished,
+  fetchingMySongsStarted,
+  mySongsSet,
+  selectMySongs,
+} from "../app/slices/mySongs";
+import { Song } from "../app/song";
+import { librarySet } from "../app/slices/library";
 
 type Props = {
   recentSongs: Song[];
@@ -42,6 +40,7 @@ type Props = {
 
 const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
   const user = useSelector(selectUser);
+  const mySongs = useSelector(selectMySongs);
   const { uploadContainerVisible } = useSelector(selectUpload);
   const dispatch = useDispatch();
 
@@ -67,15 +66,21 @@ const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
               .fetch(query)
               .then(
                 (
-                  response: { username: string; image: string; _id: string }[]
+                  response: {
+                    username: string;
+                    image: string;
+                    _id: string;
+                    libraryId: string;
+                  }[]
                 ) => {
-                  const { username, image, _id } = response[0];
+                  const { username, image, _id, libraryId } = response[0];
 
                   dispatch(
                     userAuthenticated({
                       username: username,
                       image: image,
                       id: _id,
+                      libraryId: libraryId,
                     })
                   );
                 }
@@ -86,6 +91,52 @@ const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
       }
     },
     [user]
+  );
+
+  useEffect(
+    function getMySongs() {
+      if (mySongs.songs.length === 0 && user.authenticated) {
+        dispatch(fetchingMySongsStarted());
+        const query = mySongsQuery(user.data.id);
+
+        client
+          .fetch(query)
+          .then((res: Song[]) => {
+            dispatch(mySongsSet(res));
+          })
+          .finally(() => dispatch(fetchingMySongsFinished()));
+      }
+    },
+    [user.authenticated]
+  );
+
+  useEffect(
+    function createLibrary() {
+      if (user.authenticated) {
+        const doc = {
+          _type: "library",
+          _id: user.data.libraryId,
+          userId: user.data.id,
+        };
+
+        client.createIfNotExists(doc);
+      }
+    },
+    [userAuthenticated]
+  );
+
+  useEffect(
+    function getSongsFromLibrary() {
+      if (user.authenticated) {
+        const query = libraryQuery(user.data.libraryId);
+        client
+          .fetch(query)
+          .then((res: { songs: Song[] }[]) =>
+            dispatch(librarySet(res[0].songs))
+          );
+      }
+    },
+    [user.authenticated]
   );
 
   const showMenu = function () {

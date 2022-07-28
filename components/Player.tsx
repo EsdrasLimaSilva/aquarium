@@ -25,10 +25,6 @@ function Player() {
   const [currentSec, setCurrentSec] = useState(59);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setCurrentSec(59);
-  }, [duration]);
-
   const handlePlay = (e: React.SyntheticEvent) => {
     const audio = e.target as HTMLAudioElement;
     const audioDuration = Math.ceil(audio.duration);
@@ -66,6 +62,8 @@ function Player() {
 
     setCurrentTime(Number(input.value));
     audio.currentTime = Number(input.value);
+    audio.play();
+    dispatch(currentSongStartedToPlay());
   };
 
   const controlVolume = (e: React.ChangeEvent) => {
@@ -76,7 +74,7 @@ function Player() {
 
   return (
     <div
-      className={`fixed bottom-0 right-0 h-44 w-screen sm:max-w-xs rounded-lg bg-translucens backdrop-blur-xl text-white p-3 transition-all duration-100 ${
+      className={`fixed bottom-0 right-0 h-44 w-screen sm:max-w-xs rounded-lg bg-translucens backdrop-blur-xl text-white p-3 transition-all duration-300 ${
         currentSong.visible ? "" : "translate-y-full"
       }`}
     >
@@ -87,7 +85,10 @@ function Player() {
         autoPlay
         onCanPlay={(e) => handlePlay(e)}
         onWaiting={() => setLoading(true)}
-        onEnded={() => toggleSong()}
+        onEnded={(e) => {
+          dispatch(currentSongWasPaused());
+          (e.target as HTMLAudioElement).pause();
+        }}
         onTimeUpdate={(e) => handleAudioProgress(e)}
       ></audio>
 
@@ -103,7 +104,7 @@ function Player() {
       </button>
 
       <div>
-        <div className="flex flex-row justify-center items-start">
+        <div className="flex flex-row justify-around items-start">
           <span className="mr-5">
             <h2 className="text-xl">{formatString(currentSong.name)}</h2>
             <h3 className="opacity-70">{currentSong.author}</h3>
@@ -116,7 +117,7 @@ function Player() {
               "00:00"
             )}
           </span>
-          {currentSong.visible && (
+          {currentSong.songUrl && (
             <span className="mr-2">
               <Image
                 src={currentSong.cover}
