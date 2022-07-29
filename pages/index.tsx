@@ -204,7 +204,7 @@ export const getStaticProps = async function () {
       popSongs: popSongsResponse,
       rockSongs: rockSongsResponse,
     },
-    revalidade: 3600,
+    revalidate: 3600,
   };
 };
 
