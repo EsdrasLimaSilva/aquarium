@@ -4,6 +4,7 @@ import HomeSongs from "./HomeSongs";
 import Library from "./Library";
 import MySongs from "./MySongs";
 import SearchedSongs from "./SearchedSongs";
+import Support from "./Support";
 
 function Container() {
   const operation = useSelector(selectOperation);
@@ -17,6 +18,8 @@ function Container() {
       return <Library />;
     case "searchedSongs":
       return <SearchedSongs />;
+    case "support":
+      return <Support />;
     default:
       return <HomeSongs />;
   }

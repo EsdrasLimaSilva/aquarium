@@ -25,6 +25,9 @@ const operationSlice = createSlice({
     changedToSearchedSongs: (state) => {
       state.current = "searchedSongs";
     },
+    changedToSupport: (state) => {
+      state.current = "support";
+    },
   },
 });
 
@@ -33,6 +36,7 @@ export const {
   changedToMySongs,
   changedToLibrary,
   changedToSearchedSongs,
+  changedToSupport,
 } = operationSlice.actions;
 export const selectOperation = (state: RootState) => state.operation.current;
 

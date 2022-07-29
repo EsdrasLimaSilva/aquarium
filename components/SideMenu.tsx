@@ -1,6 +1,6 @@
 import React from "react";
 import Profile from "./Profile";
-import { AiFillHome, AiFillHeart } from "react-icons/ai";
+import { AiFillHome, AiFillHeart, AiFillInfoCircle } from "react-icons/ai";
 import { BsMusicNoteList } from "react-icons/bs";
 import { IoExit } from "react-icons/io5";
 import { useRouter } from "next/router";
@@ -10,6 +10,7 @@ import {
   changedToHomeSongs,
   changedToLibrary,
   changedToMySongs,
+  changedToSupport,
   selectOperation,
 } from "../app/slices/operation";
 
@@ -87,6 +88,19 @@ function SideMenu() {
           >
             <AiFillHeart className="mr-2" />
             Library
+          </li>
+
+          <li
+            className={`py-3 flex flex-row cursor-pointer transition-all duration-300 ${
+              operation === "support" ? "opacity-100" : "opacity-50"
+            }`}
+            onClick={() => {
+              dispatch(changedToSupport());
+              closeMenu();
+            }}
+          >
+            <AiFillInfoCircle className="mr-2" />
+            Support
           </li>
         </ul>
       </div>

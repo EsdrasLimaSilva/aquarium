@@ -58,7 +58,7 @@ function Library() {
       className="flex justify-center items-center flex-row flex-wrap min-h-screen mt-5 lg:ml-24 transition-all duration-300 ease-out translate-x-10 opacity-0"
     >
       {library.songs.map((song) => (
-        <Song song={song} likeButton={true} />
+        <Song key={song._id} song={song} likeButton={true} />
       ))}
     </div>
   );

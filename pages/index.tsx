@@ -176,7 +176,11 @@ const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
           >
             <AiFillGithub />
           </a>
-          <a href="" target="_blank" className="text-3xl ml-2">
+          <a
+            href="https://www.linkedin.com/in/esdras-silva-66b31520b"
+            target="_blank"
+            className="text-3xl ml-2"
+          >
             <AiFillLinkedin />
           </a>
         </footer>
