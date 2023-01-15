@@ -17,7 +17,7 @@ function SearchedSongs() {
                 <ImSpinner9 className="animate-spin text-2xl" />
             ) : search.songs.length === 0 ? (
                 <h2 className="flex flex-row items-center">
-                    sorry, we couldn't find any song{" "}
+                    sorry, we couldn&apos;t find any song{" "}
                     <GiMusicalNotes className="ml-2" />
                 </h2>
             ) : (

@@ -184,6 +184,7 @@ const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
                     <a
                         href="https://github.com/EsdrasLimaSilva"
                         target="_blank"
+                        rel="noreferrer"
                         className="text-3xl"
                     >
                         <AiFillGithub />
@@ -191,6 +192,7 @@ const Home: NextPage<Props> = ({ recentSongs, popSongs, rockSongs }) => {
                     <a
                         href="https://www.linkedin.com/in/esdras-silva-66b31520b"
                         target="_blank"
+                        rel="noreferrer"
                         className="text-3xl ml-2"
                     >
                         <AiFillLinkedin />
@@ -216,7 +218,7 @@ export const getStaticProps = async function () {
             popSongs: popSongsResponse,
             rockSongs: rockSongsResponse,
         },
-        revalidate: 3600,
+        revalidate: 90000,
     };
 };
 
