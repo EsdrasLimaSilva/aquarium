@@ -1,25 +1,25 @@
 const sanityClient = require("@sanity/client");
 
 const client = sanityClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECTID,
-  dataset: "production",
-  apiVersion: "2022-07-21",
-  token: process.env.NEXT_PUBLIC_SANITY_TOKEN,
-  useCdn: true,
+    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECTID,
+    dataset: "production",
+    apiVersion: "2022-07-21",
+    token: process.env.NEXT_PUBLIC_SANITY_TOKEN,
+    useCdn: true,
 });
 
 export const userQuery = (userId: string) => {
-  const query = `*[ _type == "user" && _id == "${userId}"]{
+    const query = `*[ _type == "user" && _id == "${userId}"]{
     _id,
     username,
     image,
     libraryId
   }`;
-  return query;
+    return query;
 };
 
 export const recentSongsQuery = () => {
-  const query = `*[_type == "song"] | order(_createdAt desc)[0...8]{
+    const query = `*[_type == "song"] | order(_createdAt desc)[0...8]{
     author,
     authorId,
     cover,
@@ -31,11 +31,11 @@ export const recentSongsQuery = () => {
     tags,
     _id
   }`;
-  return query;
+    return query;
 };
 
 export const genreSongQuery = (genre: string) => {
-  const query = `*[_type == "song" && genre == "${genre}"][0...8]{
+    const query = `*[_type == "song" && genre == "${genre}"][0...8]{
     author,
     authorId,
     cover,
@@ -47,11 +47,11 @@ export const genreSongQuery = (genre: string) => {
     tags,
     _id
   }`;
-  return query;
+    return query;
 };
 
 export const searchQuery = (term: string) => {
-  const query = `*[_type == 'song' && genre match "${term}" || author match "${term}" || name match "${term}" || "${term}" in tags ]{
+    const query = `*[_type == 'song' && genre match "${term}" || author match "${term}" || name match "${term}" || "${term}" in tags ]{
     author,
     authorId,
     cover,
@@ -64,17 +64,17 @@ export const searchQuery = (term: string) => {
     _id
   }`;
 
-  return query;
+    return query;
 };
 
 export const mySongsQuery = (userId: string) => {
-  const query = `*[ _type == "song" && authorId == "${userId}"] | order(_createdAt desc)`;
+    const query = `*[ _type == "song" && authorId == "${userId}"] | order(_createdAt desc)`;
 
-  return query;
+    return query;
 };
 
 export const libraryQuery = (libraryId: string) => {
-  const query = `*[ _type == "library" && _id == "${libraryId}"]{ songs[] -> {
+    const query = `*[ _type == "library" && _id == "${libraryId}"]{ songs[] -> {
     author,
     authorId,
     cover,
@@ -88,7 +88,7 @@ export const libraryQuery = (libraryId: string) => {
     
   }}`;
 
-  return query;
+    return query;
 };
 
 export default client;
